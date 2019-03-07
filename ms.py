@@ -18,11 +18,13 @@ import pandas as pd
 import time
 
 
-vol = 65
+vol = 65 
 issue = 1
+#article in advance vol = 0, issue = 0
+journal = mnsc #msom,opre
 
 start = time.time()
-url = "https://pubsonline.informs.org/toc/mnsc/%s/%s"%(vol,issue)
+url = "https://pubsonline.informs.org/toc/%s/%s/%s"%(journal,vol,issue)
 r = requests.get(url)
 soup = BeautifulSoup(r.text,"html.parser")
 soup_abstact_list = soup.find_all('span',class_='hlFld-Abstract')
@@ -49,4 +51,4 @@ labels=['department','title','url','abstract']
 df = pd.DataFrame.from_records(paper_info, columns=labels)
 now = time.time()
 print('Finished, and %.2f s elapse'%(now-start))
-df.to_csv('mnsc_%s_%s.csv'%(vol,issue),encoding('utf-8'))
+df.to_csv('mnsc_%s_%s.csv'%(vol,issue),encoding='utf-8')
